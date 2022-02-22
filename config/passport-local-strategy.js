@@ -48,14 +48,13 @@ passport.setAuthenticatedUser = function(req, res, next){
 
 //check if the user is an admin
 passport.checkAdminAuthentication = function(req, res, next){
-    // console.log("CAA2",res.locals.user);
+    // console.log("CAA2 -->",res.locals.user);
     if (req.isAuthenticated() && res.locals.user.usersPower === 'admin') {
-        next();
-    }else{
+        return next();
+    }
     console.log("You are not an admin");
     // return res.redirect('/');
     return res.end("----- Your not an ADMIN -------");
-    }
 }
 //check if the user is authenticated
 passport.checkAuthentication = function(req, res, next){

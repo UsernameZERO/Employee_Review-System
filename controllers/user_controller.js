@@ -144,8 +144,8 @@ module.exports.login =  function(req, res){
 }
 
 //To Login for admin
-module.exports.adminLogin = function(req,res){
-    console.log("login ",req.user);
+module.exports.adminLogin = function(req, res){
+    // console.log("login--->  ",req.user.usersPower);
     if (req.isAuthenticated() && req.user.usersPower === 'admin') {
         // if(req.user.usersPower === 'admin') {
         //     return res.redirect('/admin');
@@ -169,10 +169,10 @@ module.exports.updateEmp = async function(req, res){
    
     if( req.user.usersPower === 'admin'){
         let users = await User.findByIdAndUpdate(req.params.id,req.body)
-            console.log("upppp",req.body);
-            console.log("upppp curr",users.name);
+            // console.log("upppp",req.body);
+            // console.log("upppp curr",users.name);
             if(req.body.name) users.name = req.body.name;
-            console.log(req.body.name);
+            // console.log(req.body.name);
             return res.redirect('back');
                
     }else{
