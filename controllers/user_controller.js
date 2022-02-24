@@ -47,7 +47,7 @@ module.exports.profile = async function(req, res){
              });
     } catch (error) {
         console.log('Error in profile in user controller---',error);
-    return;
+        return;
     }
    
 }
@@ -145,7 +145,7 @@ module.exports.login =  function(req, res){
 
 //To Login for admin
 module.exports.adminLogin = function(req,res){
-    console.log("login ",req.user);
+    // console.log("login ",req.user);
     if (req.isAuthenticated() && req.user.usersPower === 'admin') {
         // if(req.user.usersPower === 'admin') {
         //     return res.redirect('/admin');
@@ -166,32 +166,44 @@ module.exports.logout = async function(req, res){
 
 // Updating the employee details via admin 
 module.exports.updateEmp = async function(req, res){
+    try {
+        if( req.user.usersPower === 'admin'){
+            let users = await User.findByIdAndUpdate(req.params.id,req.body)
+                console.log("upppp",req.body);
+                console.log("upppp curr",users.name);
+                if(req.body.name) users.name = req.body.name;
+                console.log(req.body.name);
+                return res.redirect('back');
+                   
+        }else{
+                return res.status(401).send('Unauthorised');
+            }
+    } catch (error) {
+        console.log(error, "Error in thr updating employee");
+        return res.status(401).send('Unauthorised');
+    }
    
-    if( req.user.usersPower === 'admin'){
-        let users = await User.findByIdAndUpdate(req.params.id,req.body)
-            console.log("upppp",req.body);
-            console.log("upppp curr",users.name);
-            if(req.body.name) users.name = req.body.name;
-            console.log(req.body.name);
-            return res.redirect('back');
-               
-    }else{
-            return res.status(401).send('Unauthorised');
-        }
+    
 }
 
 // deleting the employee with their performance and feedback associated with  it
 module.exports.deleteEmp = async function(req,res){
     // console.log("enterd delt");
-    if (req.user.usersPower === 'admin') {
-        let usr = await User.findById(req.params.id)
-        let performance = await Performance.deleteMany({rvwFor: req.params.id})
-        let feedbacks = await Feedback.deleteMany({ fdbkBYuser: req.params.id})
-       
-        usr.remove();
-        return res.redirect('back');   
-    }else{
-        console.log("You have no access to remove");
+    try {
+        if (req.user.usersPower === 'admin') {
+            let usr = await User.findById(req.params.id)
+            let performance = await Performance.deleteMany({rvwFor: req.params.id})
+            let feedbacks = await Feedback.deleteMany({ fdbkBYuser: req.params.id})
+           
+            usr.remove();
+            return res.redirect('back');   
+        }else{
+            console.log("You have no access to remove");
+            return res.end('You have no access to remove');
+        }
+    } catch (error) {
+        console.log(error, "Error in thr deleting employee");
         return res.end('You have no access to remove');
     }
+    
 }

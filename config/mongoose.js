@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-const environment = require('../config/environment');
+// const environment = require('../config/environment');
 //Connecting mongoose to mongodb
-mongoose.connect(`mongodb://localhost/${environment.db}`);
+// mongoose.connect(`mongodb://localhost/${environment.db}`);
+mongoose.connect('mongodb://localhost/employee_review-sys');
 
 const db = mongoose.connection;// storing the data from mongoDB to initialized variable
 
