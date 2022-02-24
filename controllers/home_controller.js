@@ -13,11 +13,10 @@ module.exports.home = function(req,res){
 module.exports.adminPage = async function(req,res){
 try {
     let performances = await Performance.find({})
-    .populate('rvwBYuser')
-    .populate({
-        path: 'feedbacks',
-    });
-    
+    // .populate('rvwBYuser')
+    // .populate({
+    //     path: 'feedbacks',
+    // });
     let users = await User.find({})
 
     return  res.render('admin', {
@@ -25,7 +24,8 @@ try {
         profile_user: users,
         performances : performances,
     });
-} catch (error) {
+} 
+catch (error) {
     console.log('Error',error);
     return;
   }

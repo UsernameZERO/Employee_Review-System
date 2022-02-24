@@ -11,8 +11,8 @@
       >
       <li>Rating : <%= performance.review%>/5</li>
       <li>Review : <%= performance.description%></li>
-
-      <small><p id="perfUSER">-- <%= performance.rvwBYuser.name%> --</p></small>
+      <li><%= performance.rvwBYuser%></li>
+      <!-- <small><p id="perfUSER">-- <%= performance.rvwBYuser%> --</p></small> -->
       <!-- Display feedbacks -->
       <small> <%- include('./_listReviews')%></small>
     </div>
